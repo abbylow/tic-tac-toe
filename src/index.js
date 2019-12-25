@@ -46,9 +46,10 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      history: [{ squares: Array(9).fill(null), location: { col: null, row: null} }],
+      history: [{ squares: Array(9).fill(null), location: { col: null, row: null } }],
       xIsNext: true,
       stepNumber: 0,
+      isAsc: true,
     }
   }
 
@@ -74,13 +75,17 @@ class Game extends React.Component {
     })
   }
 
+  sort() {
+    this.setState({ isAsc: !this.state.isAsc });
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const { winner, wonLine } = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-      const desc = move ? `Go to move # ${move} ( ${step.location.col} , ${step.location.row})`: "Go to game start";
+      const desc = move ? `Go to move # ${move} ( ${step.location.col} , ${step.location.row})` : "Go to game start";
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>
@@ -108,7 +113,8 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <button onClick={() => this.sort()}>Toggle order</button>
+          <ol>{this.state.isAsc ?  moves : moves.reverse()}</ol>
         </div>
       </div>
     );
