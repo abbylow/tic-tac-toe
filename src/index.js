@@ -13,27 +13,26 @@ function Square(props) {
 class Board extends React.Component {
 
   renderSquare(i) {
-    return <Square value={this.props.squares[i]} onClick={() => { this.props.onClick(i) }} />;
+    return <Square key={`square-${i}`} value={this.props.squares[i]} onClick={() => { this.props.onClick(i) }} />;
+  }
+
+  renderBoard() {
+    let board = [];
+    for (let k = 0; k < 3; k++) {
+      let row = [];
+      for (let m = 0; m < 3; m++) {
+        let i = (3 * k) + m;
+        row.push(this.renderSquare(i));
+      }
+      board.push(<div className="board-row" key={`row-${k}`}>{row}</div>);
+    }
+    return board;
   }
 
   render() {
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {this.renderBoard()}
       </div>
     );
   }
@@ -81,17 +80,17 @@ class Game extends React.Component {
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>
-            { move === this.state.stepNumber ? (<b>{desc}</b>) : desc }
+            {move === this.state.stepNumber ? (<b>{desc}</b>) : desc}
           </button>
         </li>
       )
     })
-    
+
     let status;
     if (winner) {
       status = 'Winner: ' + winner;
     }
-    else if(current.squares.filter(el => el === null).length === 0){
+    else if (current.squares.filter(el => el === null).length === 0) {
       status = 'It is a Draw';
     }
     else {
