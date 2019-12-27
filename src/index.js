@@ -79,6 +79,15 @@ class Game extends React.Component {
     this.setState({ isAsc: !this.state.isAsc });
   }
 
+  restart(){
+    this.setState({
+      history: [{ squares: Array(9).fill(null), location: { col: null, row: null } }],
+      xIsNext: true,
+      stepNumber: 0,
+      isAsc: true,
+    });
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -115,6 +124,7 @@ class Game extends React.Component {
           <div>{status}</div>
           <button onClick={() => this.sort()}>Toggle order</button>
           <ol>{this.state.isAsc ?  moves : moves.reverse()}</ol>
+          <button onClick={() => this.restart()}>Restart the game</button>
         </div>
       </div>
     );
