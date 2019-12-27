@@ -14,3 +14,6 @@ Implememted extra features as suggested by the tutorial:
 - Add a toggle button that lets you sort the moves in either ascending or descending order.
 - When someone wins, highlight the three squares that caused the win.
 - When no one wins, display a message about the result being a draw.
+
+Implement more features based on my own preferences:
+- Add a button to restart the game (Clear all the moves)
