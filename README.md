@@ -20,4 +20,5 @@ Implement more features based on my own preferences:
 
 Features to be added on: 
 - Allow the user to choose the mode of game (play with AI opponent or not) 
-- Implement the minimax concept to find the optimal move for AI player
+- Make a AI player's move decision making (randomly choose an available move)
+- Further enhancement: Implement the minimax concept to find the optimal move for AI player
