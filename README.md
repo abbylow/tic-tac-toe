@@ -19,5 +19,5 @@ Implement more features based on my own preferences:
 - Add a button to restart the game (Clear all the moves)
 
 Features to be added on: 
-- Allow the user to choose the mode of game (play with AI or not) 
-- Implement the minimax concept to make the AI moves
+- Allow the user to choose the mode of game (play with AI opponent or not) 
+- Implement the minimax concept to find the optimal move for AI player
