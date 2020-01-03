@@ -1,13 +1,12 @@
 # tic-tac-toe
-A React.js tutorial from https://reactjs.org/tutorial/tutorial.html
 
-Followed the tutorial to complete the following features: 
+Followed ReactJs tutorial (https://reactjs.org/tutorial/tutorial.html) to complete the following basic features: 
 - Let the user to play tic-tac-toe
 - Indicates when a player has won the game
 - Stores a game’s history as the game progresses
 - Allows players to review a game’s history and see previous versions of a game’s board
 
-Implememted extra features as suggested by the tutorial: 
+Implememted extra features as suggested by ReactJs tutorial: 
 - Display the location for each move in the format (col, row) in the move history list. (Start counting by 0)
 - Bold the currently selected item in the move list.
 - Rewrite Board to use two loops to make the squares instead of hardcoding them.
@@ -18,8 +17,8 @@ Implememted extra features as suggested by the tutorial:
 Implement more features based on my own preferences:
 - Add a button to restart the game (Clear all the moves)
 
-Features to be added on: 
-- Check the winner using loop instead of the hardcoded array
-- Allow the user to choose the mode of game (play with AI opponent or not) 
-- Make a AI player's move decision making (randomly choose an available move)
-- Further enhancement: Implement the minimax concept to find the optimal move for AI player
+TODO: 
+1. Check the winner dynamically instead of the hardcoded array
+2. Allow the user to choose the mode of game (play with AI opponent or not) 
+3. Make a dumb "AI" player which only randomly pick a move
+4. Implement minimax concept for AI's move
