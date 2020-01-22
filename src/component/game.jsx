@@ -10,6 +10,7 @@ export class Game extends React.Component {
       xIsNext: true,
       stepNumber: 0,
       isAsc: true,
+      boardSize: 3
     }
   }
 
@@ -48,10 +49,17 @@ export class Game extends React.Component {
     });
   }
 
+  changeBoardSize = (e) => {
+    this.setState({
+      boardSize: e.target.value
+    })
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const { winner, wonLine } = calculateWinner(current.squares);
+    const boardSize = this.state.boardSize;
 
     const moves = history.map((step, move) => {
       const desc = move ? `Go to move # ${move} ( ${step.location.col} , ${step.location.row})` : "Go to game start";
@@ -78,13 +86,15 @@ export class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board squares={current.squares} wonLine={wonLine} onClick={(i) => this.handleClick(i)} />
+          <Board squares={current.squares} wonLine={wonLine} boardSize={boardSize} onClick={(i) => this.handleClick(i)} />
         </div>
         <div className="game-info">
           <div>{status}</div>
+          <button onClick={() => this.restart()}>Restart the game</button>
           <button onClick={() => this.sort()}>Toggle order</button>
           <ol>{this.state.isAsc ?  moves : moves.reverse()}</ol>
-          <button onClick={() => this.restart()}>Restart the game</button>
+          
+          Board Size: <input type="number" name="boardSize" value={boardSize} onChange={this.changeBoardSize}/>
         </div>
       </div>
     );
