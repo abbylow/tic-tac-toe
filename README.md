@@ -23,6 +23,7 @@ TODO:
 1. Allow the user to choose the mode of game (play with AI opponent or not) 
 2. Make a dumb "AI" player which only randomly pick a move
 3. Implement minimax concept for AI's move
+4. Use observables to make AI player
 
 Minimax Algorithm 
 https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
