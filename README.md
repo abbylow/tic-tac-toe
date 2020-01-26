@@ -16,9 +16,13 @@ Implememted extra features as suggested by ReactJs tutorial:
 
 Implement more features based on my own preferences:
 - Add a button to restart the game (Clear all the moves)
+- Allow user change the board size (range: 3 to 20)
+- Check the winner dynamically instead of the hardcoded array
 
 TODO: 
-1. Check the winner dynamically instead of the hardcoded array
-2. Allow the user to choose the mode of game (play with AI opponent or not) 
-3. Make a dumb "AI" player which only randomly pick a move
-4. Implement minimax concept for AI's move
+1. Allow the user to choose the mode of game (play with AI opponent or not) 
+2. Make a dumb "AI" player which only randomly pick a move
+3. Implement minimax concept for AI's move
+
+Minimax Algorithm 
+https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
