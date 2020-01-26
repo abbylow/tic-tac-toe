@@ -10,7 +10,8 @@ export class Game extends React.Component {
       xIsNext: true,
       stepNumber: 0,
       isAsc: true,
-      boardSize: 3
+      boardSize: 3,
+      sizeInput: 3,
     }
   }
 
@@ -51,20 +52,29 @@ export class Game extends React.Component {
   }
 
   changeBoardSize = (e) => {
+    this.setState({ sizeInput: e.target.value });
+  }
+
+  reflectBoardSize = () => {
+    const sizeInput = this.state.sizeInput;
     if (this.state.history.length === 1) {
-      this.setState({
-        boardSize: e.target.value
-      })
-    } 
+      if (sizeInput > 2 && sizeInput < 21) {
+        this.setState({
+          boardSize: sizeInput
+        })
+      }
+      else {
+        alert("Can only change the board size between 3 to 20.")
+      }
+    }
     else {
       alert("Can only change the board size before game starts.")
     }
   }
 
   render() {
-    const history = this.state.history;
+    const { history, boardSize, sizeInput } = this.state;
     const current = history[this.state.stepNumber];
-    const boardSize = this.state.boardSize;
     const { winner, wonLine } = calculateWinner(current.squares, boardSize);
 
     const moves = history.map((step, move) => {
@@ -100,7 +110,8 @@ export class Game extends React.Component {
           <button onClick={() => this.sort()}>Toggle order</button>
           <ol>{this.state.isAsc ? moves : moves.reverse()}</ol>
 
-          Board Size: <input type="number" name="boardSize" value={boardSize} onChange={this.changeBoardSize} />
+          Board Size: <input type="number" name="boardSize" value={sizeInput} onChange={this.changeBoardSize} />
+          <button onClick={() => this.reflectBoardSize()}>Confirm</button>
         </div>
       </div>
     );
