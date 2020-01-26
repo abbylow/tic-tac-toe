@@ -18,7 +18,8 @@ export class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    if (calculateWinner(squares).winner || squares[i]) {
+    const boardSize = this.state.boardSize;
+    if (calculateWinner(squares, boardSize).winner || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? 'X' : 'O';
@@ -40,7 +41,7 @@ export class Game extends React.Component {
     this.setState({ isAsc: !this.state.isAsc });
   }
 
-  restart(){
+  restart() {
     this.setState({
       history: [{ squares: Array(9).fill(null), location: { col: null, row: null } }],
       xIsNext: true,
@@ -50,16 +51,21 @@ export class Game extends React.Component {
   }
 
   changeBoardSize = (e) => {
-    this.setState({
-      boardSize: e.target.value
-    })
+    if (this.state.history.length === 1) {
+      this.setState({
+        boardSize: e.target.value
+      })
+    } 
+    else {
+      alert("Can only change the board size before game starts.")
+    }
   }
 
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const { winner, wonLine } = calculateWinner(current.squares);
     const boardSize = this.state.boardSize;
+    const { winner, wonLine } = calculateWinner(current.squares, boardSize);
 
     const moves = history.map((step, move) => {
       const desc = move ? `Go to move # ${move} ( ${step.location.col} , ${step.location.row})` : "Go to game start";
@@ -92,9 +98,9 @@ export class Game extends React.Component {
           <div>{status}</div>
           <button onClick={() => this.restart()}>Restart the game</button>
           <button onClick={() => this.sort()}>Toggle order</button>
-          <ol>{this.state.isAsc ?  moves : moves.reverse()}</ol>
-          
-          Board Size: <input type="number" name="boardSize" value={boardSize} onChange={this.changeBoardSize}/>
+          <ol>{this.state.isAsc ? moves : moves.reverse()}</ol>
+
+          Board Size: <input type="number" name="boardSize" value={boardSize} onChange={this.changeBoardSize} />
         </div>
       </div>
     );

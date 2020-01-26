@@ -1,20 +1,84 @@
+export function calculateWinner(squares, boardSize) {
+  let finalWinner = null;
+  let finalWonLine = [];
 
-export function calculateWinner(squares) {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return { winner: squares[a], wonLine: lines[i] };
+  // Check the horizontal lines 
+  let hrzRow = 0;
+  while (hrzRow < boardSize && !finalWinner) {
+    let hrzWonLine = [(boardSize * hrzRow) + 0];
+    let hrzWinner = squares[(boardSize * hrzRow) + 0];
+    let hrzCol = 1;
+    while (hrzCol < boardSize && hrzWinner) {
+      let k = (boardSize * hrzRow) + hrzCol;
+      if (hrzWinner !== squares[k]) {
+        hrzWinner = null;
+      }
+      hrzWonLine.push(k);
+      hrzCol++;
+    }
+    if (hrzWinner) {
+      finalWinner = hrzWinner;
+      finalWonLine = hrzWonLine;
+    }
+    hrzRow++;
+  }
+
+  // Check the vertical lines 
+  let vtcCol = 0;
+  while (vtcCol < boardSize && !finalWinner) {
+    let vtcWonLine = [(boardSize * 0) + vtcCol];
+    let vtcWinner = squares[(boardSize * 0) + vtcCol];
+    let vtcRow = 1;
+    while (vtcRow < boardSize && vtcWinner) {
+      let k = (boardSize * vtcRow) + vtcCol;
+      if (vtcWinner !== squares[k]) {
+        vtcWinner = null;
+      }
+      vtcWonLine.push(k);
+      vtcRow++;
+    }
+    if (vtcWinner) {
+      finalWinner = vtcWinner;
+      finalWonLine = vtcWonLine;
+    }
+    vtcCol++;
+  }
+
+  // Check the diagonal line (left top to right bottom)
+  let ltrWinner = squares[0];
+  if (!finalWinner && ltrWinner) {
+    let ltrWonLine = [0];
+    for (let count = 1; count < boardSize; count++) {
+      let k = (boardSize * count) + count;
+      if (ltrWinner !== squares[k]) {
+        ltrWinner = null;
+        break;
+      }
+      ltrWonLine.push(k);
+    }
+    if (ltrWinner) {
+      finalWinner = ltrWinner;
+      finalWonLine = ltrWonLine;
     }
   }
-  return { winner: null, wonLine: [] };
+
+  // Check the diagonal line (right top to left bottom)
+  let rtlWinner = squares[(boardSize * (boardSize - 1))];
+  if (!finalWinner && rtlWinner) {
+    let rtlWonLine = [boardSize * (boardSize - 1)];
+    for (let count = 1; count < boardSize; count++) {
+      let k = (boardSize * (boardSize - 1 - count)) + count;
+      if (rtlWinner !== squares[k]) {
+        rtlWinner = null;
+        break;
+      }
+      rtlWonLine.push(k);
+    }
+    if (rtlWinner) {
+      finalWinner = rtlWinner;
+      finalWonLine = rtlWonLine;
+    }
+  }
+
+  return { winner: finalWinner, wonLine: finalWonLine };
 }
