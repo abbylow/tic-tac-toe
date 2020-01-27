@@ -80,5 +80,9 @@ export function calculateWinner(squares, boardSize) {
     }
   }
 
-  return { winner: finalWinner, wonLine: finalWonLine };
+  let finalScore = 0;
+  if (finalWinner) {
+    finalScore = finalWinner === 'X' ? -10 : 10;
+  }
+  return { winner: finalWinner, wonLine: finalWonLine, score: finalScore };
 }

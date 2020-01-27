@@ -1,6 +1,7 @@
 import React from 'react';
 import { Board } from ".";
 import { calculateWinner } from "../service/calculateWinner";
+import { minimax } from '../service/minimax';
 
 export class Game extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export class Game extends React.Component {
       isAsc: true,
       boardSize: 3,
       sizeInput: 3,
+      gameMode: 0,  //0 = AI, 1 = Human
     }
   }
 
@@ -19,16 +21,21 @@ export class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    const boardSize = this.state.boardSize;
+    const { boardSize, xIsNext, gameMode } = this.state;
     if (calculateWinner(squares, boardSize).winner || squares[i]) {
       return;
     }
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
-    this.setState({
-      history: history.concat({ squares, location: { col: i % 3, row: parseInt(i / 3) } }),
-      xIsNext: !this.state.xIsNext,
-      stepNumber: history.length,
-    });
+    squares[i] = xIsNext ? 'X' : 'O';
+    if (xIsNext && !gameMode) {
+      this.findBestAiMove(squares, boardSize);
+    }
+    else {
+      this.setState({
+        history: history.concat({ squares, location: { col: i % 3, row: parseInt(i / 3) } }),
+        xIsNext: !xIsNext,
+        stepNumber: history.length,
+      });
+    }
   }
 
   jumpTo(step) {
@@ -72,8 +79,41 @@ export class Game extends React.Component {
     }
   }
 
+  changeGameMode = () => {
+    if (this.state.history.length === 1) {
+      this.setState({ gameMode: !this.state.gameMode })
+    }
+    else {
+      alert("Can only change the mode before game starts.")
+    }
+  }
+
+  findBestAiMove = (squares, boardSize) => {
+    let bestVal = -1000;
+    let bestMove = -1;
+
+    for (let k in squares) {
+      if (!squares[k]) {
+        squares[k] = 'O';
+        let moveVal = minimax(squares, boardSize, 0, (!!false));
+        squares[k] = null;
+        if (moveVal > bestVal) {
+          bestMove = k;
+          bestVal = moveVal;
+        }
+      }
+    }
+    squares[bestMove] = 'O'
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+    this.setState({
+      history: history.concat({ squares, location: { col: bestMove % 3, row: parseInt(bestMove / 3) } }),
+      xIsNext: true,
+      stepNumber: history.length,
+    });
+  }
+
   render() {
-    const { history, boardSize, sizeInput } = this.state;
+    const { history, boardSize, sizeInput, gameMode } = this.state;
     const current = history[this.state.stepNumber];
     const { winner, wonLine } = calculateWinner(current.squares, boardSize);
 
@@ -108,6 +148,7 @@ export class Game extends React.Component {
           <div>{status}</div>
           <button onClick={() => this.restart()}>Restart the game</button>
           <button onClick={() => this.sort()}>Toggle order</button>
+          <button onClick={() => this.changeGameMode()}>{gameMode ? 'Change O = AI opponent' : 'Change O = human opponent'}</button>
           <ol>{this.state.isAsc ? moves : moves.reverse()}</ol>
 
           Board Size: <input type="number" name="boardSize" value={sizeInput} onChange={this.changeBoardSize} />
