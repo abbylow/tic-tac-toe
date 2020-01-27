@@ -31,7 +31,7 @@ export class Game extends React.Component {
     }
     else {
       this.setState({
-        history: history.concat({ squares, location: { col: i % 3, row: parseInt(i / 3) } }),
+        history: history.concat({ squares, location: { col: i % boardSize, row: parseInt(i / boardSize) } }),
         xIsNext: !xIsNext,
         stepNumber: history.length,
       });
@@ -65,13 +65,15 @@ export class Game extends React.Component {
   reflectBoardSize = () => {
     const sizeInput = this.state.sizeInput;
     if (this.state.history.length === 1) {
-      if (sizeInput > 2 && sizeInput < 21) {
+      if (sizeInput > 2 && sizeInput < 6) {
+        const arrSize = Math.pow(parseInt(sizeInput), 2);
         this.setState({
-          boardSize: sizeInput
+          boardSize: sizeInput,
+          history: [{ squares: Array(arrSize).fill(null), location: { col: null, row: null } }],
         })
       }
       else {
-        alert("Can only change the board size between 3 to 20.")
+        alert("Can only change the board size between 3 to 5.")
       }
     }
     else {
@@ -91,11 +93,10 @@ export class Game extends React.Component {
   findBestAiMove = (squares, boardSize) => {
     let bestVal = -1000;
     let bestMove = -1;
-
     for (let k in squares) {
       if (!squares[k]) {
         squares[k] = 'O';
-        let moveVal = minimax(squares, boardSize, 0, (!!false));
+        let moveVal = minimax(squares, boardSize, 0, false);
         squares[k] = null;
         if (moveVal > bestVal) {
           bestMove = k;
@@ -106,7 +107,7 @@ export class Game extends React.Component {
     squares[bestMove] = 'O'
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     this.setState({
-      history: history.concat({ squares, location: { col: bestMove % 3, row: parseInt(bestMove / 3) } }),
+      history: history.concat({ squares, location: { col: bestMove % boardSize, row: parseInt(bestMove / boardSize) } }),
       xIsNext: true,
       stepNumber: history.length,
     });

@@ -4,7 +4,7 @@ export function minimax(board, boardSize, depth, isMaximizingPlayer) {
   let winnerScore = calculateWinner(board, boardSize).score;
 
   if (winnerScore === 10 || winnerScore === -10) {
-    return winnerScore;
+    return winnerScore - depth;
   }
 
   if (!isMovesLeft(board)) {
