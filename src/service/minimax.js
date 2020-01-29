@@ -3,8 +3,12 @@ import { calculateWinner } from "./calculateWinner";
 export function minimax(board, boardSize, depth, isMaximizingPlayer) {
   let winnerScore = calculateWinner(board, boardSize).score;
 
-  if (winnerScore === 10 || winnerScore === -10) {
+  if (winnerScore === 10) {
     return winnerScore - depth;
+  }
+
+  if (winnerScore === -10) {
+    return winnerScore + depth;
   }
 
   if (!isMovesLeft(board)) {

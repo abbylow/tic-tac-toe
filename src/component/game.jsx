@@ -1,7 +1,7 @@
 import React from 'react';
 import { Board } from ".";
 import { calculateWinner } from "../service/calculateWinner";
-import { minimax } from '../service/minimax';
+import { minimax, isMovesLeft } from '../service/minimax';
 
 export class Game extends React.Component {
   constructor(props) {
@@ -26,8 +26,8 @@ export class Game extends React.Component {
       return;
     }
     squares[i] = xIsNext ? 'X' : 'O';
-    if (xIsNext && !gameMode) {
-      this.findBestAiMove(squares, boardSize);
+    if (xIsNext && !gameMode && isMovesLeft(squares)) {
+      this.findBestAiMove(squares, boardSize, i);
     }
     else {
       this.setState({
@@ -50,8 +50,9 @@ export class Game extends React.Component {
   }
 
   restart() {
+    const arrSize = Math.pow(parseInt(this.state.sizeInput), 2);
     this.setState({
-      history: [{ squares: Array(9).fill(null), location: { col: null, row: null } }],
+      history: [{ squares: Array(arrSize).fill(null), location: { col: null, row: null } }],
       xIsNext: true,
       stepNumber: 0,
       isAsc: true,
@@ -90,7 +91,7 @@ export class Game extends React.Component {
     }
   }
 
-  findBestAiMove = (squares, boardSize) => {
+  findBestAiMove = (squares, boardSize, xMove) => {
     let bestVal = -1000;
     let bestMove = -1;
     for (let k in squares) {
@@ -104,10 +105,10 @@ export class Game extends React.Component {
         }
       }
     }
-    squares[bestMove] = 'O'
+    squares[bestMove] = 'O';
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     this.setState({
-      history: history.concat({ squares, location: { col: bestMove % boardSize, row: parseInt(bestMove / boardSize) } }),
+      history: history.concat({ squares, location: { col: xMove % boardSize, row: parseInt(xMove / boardSize) } }),
       xIsNext: true,
       stepNumber: history.length,
     });
