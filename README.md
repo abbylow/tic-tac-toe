@@ -19,11 +19,10 @@ Implement more features based on my own preferences:
 - Allow user change the board size (range: 3 to 5)
 - Check the winner dynamically instead of the hardcoded array
 - Allow the user to choose the mode of game (play with AI opponent or not) 
-- use minimax algorithm to choose the AI's move
-
-TODO: 
-1. Optimize the AI player algorithm because the current one is only useable for 3x3 board, 4x4 board will hang
-2. Use observables to make AI player
+- Use minimax algorithm to choose the AI's move
+- Implement Alpha-Beta Pruning to optimize the AI algorithm
+- Limit the depth level to prevent the program running non-stop
 
 Minimax Algorithm 
 https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
+https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/
