@@ -97,7 +97,7 @@ export class Game extends React.Component {
     for (let k in squares) {
       if (!squares[k]) {
         squares[k] = 'O';
-        let moveVal = minimax(squares, boardSize, 0, false);
+        let moveVal = minimax(squares, boardSize, 0, false, -1000, 1000);
         squares[k] = null;
         if (moveVal > bestVal) {
           bestMove = k;
