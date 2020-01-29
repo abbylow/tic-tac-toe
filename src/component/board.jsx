@@ -9,10 +9,10 @@ export class Board extends React.Component {
 
   renderBoard() {
     let board = [];
-    for (let k = 0; k < 3; k++) {
+    for (let k = 0; k < this.props.boardSize; k++) {
       let row = [];
-      for (let m = 0; m < 3; m++) {
-        let i = (3 * k) + m;
+      for (let m = 0; m < this.props.boardSize; m++) {
+        let i = (this.props.boardSize * k) + m;
         let highlight = false;
         if (this.props.wonLine.length > 0 && this.props.wonLine.indexOf(i) > -1) {
           highlight = true;
